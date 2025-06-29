@@ -3,34 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QR code generator</title>
+    <title>Sleek QR Code Generator</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
-        <p>Enter your text or url</p>
-        <input type="text" placeholder="Text or Url" id="qrtext">
-        <div id="imgBox">
-            <img src="" id="qrImage">
-        </div>
-        <button onclick="generateQR()">Generator QR code</button>
-    </div>
-    <script>
-let imgBox = document.getElementById("imgBox");
-let qrImage = document.getElementById("qrImage");
-let qrtext = document.getElementById("qrtext");
+        <h2>Generate Your QR Code</h2>
+        <p>Enter your text or URL below:</p>
+        <input type="text" placeholder="e.g., Your Website URL or A Message" id="qrtext">
 
-        function generateQR(){
-            if(qrtext.value.length > 0){
-             qrImage.src = " https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + qrtext.value;
-             imgBox.classList.add("show-img");
-        }else{
-            qrtext.classList.add('error');
-            setTimeout(()=>{
+        <div id="imgBox">
+            <img src="" id="qrImage" alt="Generated QR Code">
+        </div>
+
+        <button onclick="generateQR()">Generate QR Code</button>
+    </div>
+
+    <script>
+        let imgBox = document.getElementById("imgBox");
+        let qrImage = document.getElementById("qrImage");
+        let qrtext = document.getElementById("qrtext");
+
+        function generateQR() {
+            if (qrtext.value.length > 0) {
+                // Clear any previous error styling
                 qrtext.classList.remove('error');
-            }, 1000);
+                // Use a larger QR code size for better quality
+                qrImage.src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(qrtext.value);
+                imgBox.classList.add("show-img");
+            } else {
+                qrtext.classList.add('error');
+                // Remove error class after animation to allow it to trigger again
+                setTimeout(() => {
+                    qrtext.classList.remove('error');
+                }, 1000); // Matches the animation duration
+            }
         }
-    }
     </script>
 </body>
 </html>
